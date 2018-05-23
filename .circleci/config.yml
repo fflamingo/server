@@ -29,7 +29,12 @@ jobs:
           key: v2-dependencies-{{ checksum "yarn.lock" }}
         
       # run tests!
-      - run: yarn test
+      - run: lerna run test -- --coverage --ci --testResultsProcessor="jest-junit"
+
+      # upload cov!
+      - run:
+          name: coverage
+          command: yarn coverage
 
 
 
