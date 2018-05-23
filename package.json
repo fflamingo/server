@@ -2,10 +2,9 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "test": "lerna run test",
-    "test:ci":
-      "lerna run test -- --coverage --ci --testResultsProcessor=\"jest-junit\"",
-    "coverage": "lerna run coverage"
+    "test": "jest",
+    "test:ci": "jest --coverage --ci --testResultsProcessor=\"jest-junit\"",
+    "coverage": "codecov"
   },
   "workspaces": ["packages/*"],
   "devDependencies": {
