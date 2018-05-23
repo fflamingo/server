@@ -1,0 +1,7 @@
+{
+  "extends": "./config/tsconfig.json",
+  "baseUrl": "./packages",
+  "paths": {
+    "@fflamingo/*": ["./*/src"]
+  }
+}
