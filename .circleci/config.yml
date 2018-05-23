@@ -29,12 +29,22 @@ jobs:
           key: v2-dependencies-{{ checksum "yarn.lock" }}
         
       # run tests!
-      - run: yarn test:ci
+      - run: 
+          name: run jest tests
+          command: yarn test:ci
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
 
       # upload cov!
       - run:
           name: coverage
           command: yarn coverage
+
+      # store artifacts
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
 
 
 
