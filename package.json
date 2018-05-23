@@ -3,6 +3,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test",
+    "test:ci":
+      "lerna run test -- --coverage --ci --testResultsProcessor=\"jest-junit\"",
     "coverage": "lerna run coverage"
   },
   "workspaces": ["packages/*"],
