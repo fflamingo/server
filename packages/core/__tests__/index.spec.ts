@@ -1,4 +1,4 @@
-import { route } from '.';
+import { route } from '../src/index';
 
 describe('index', () => {
   test('route', () => {

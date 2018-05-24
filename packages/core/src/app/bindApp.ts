@@ -1,6 +1,6 @@
 import express from 'express';
-import { Request } from '../request/Request';
-import { Response } from '../response/Response';
+import { Request } from '../app/Request';
+import { Response } from '../app/Response';
 
 export const FFLAMINGO_LOCALS_KEY = '$$fflamingo$$';
 
@@ -10,7 +10,7 @@ export const FFLAMINGO_LOCALS_KEY = '$$fflamingo$$';
  *
  * They will be available in the Router and all handlers.
  */
-export function augmentRouterMiddleware(
+export function bindAppMiddleware(
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -21,4 +21,12 @@ export function augmentRouterMiddleware(
   };
 
   next();
+}
+
+export function getLocalsReq(res: express.Response): Request {
+  return res.locals[FFLAMINGO_LOCALS_KEY].req;
+}
+
+export function getLocalsRes(res: express.Response): Response {
+  return res.locals[FFLAMINGO_LOCALS_KEY].res;
 }

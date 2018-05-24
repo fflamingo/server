@@ -1,5 +1,5 @@
 import express from 'express';
-import { augmentRouterMiddleware } from './augmentRouterMiddleware';
+import { bindAppMiddleware } from './bindApp';
 
 export class App {
   expressApplication: express.Application;
@@ -7,6 +7,6 @@ export class App {
   constructor() {
     this.expressApplication = express();
 
-    this.expressApplication.use(augmentRouterMiddleware);
+    this.expressApplication.use(bindAppMiddleware);
   }
 }

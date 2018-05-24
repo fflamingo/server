@@ -1,6 +1,6 @@
 import express from 'express';
-import { Request } from '../request/Request';
-import { Response } from '../response/Response';
+import { Request } from '../app/Request';
+import { Response } from '../app/Response';
 
 export type RouteMiddleware = (
   req: Request,

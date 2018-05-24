@@ -1,4 +1,4 @@
-import { makeSchema } from '.';
+import { makeSchema } from '../src/index';
 
 describe('makeSchema', () => {
   test('should return schema', () => {
