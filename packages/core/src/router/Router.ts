@@ -4,6 +4,7 @@ import { RouteHandler } from './RouteHandler';
 import { Request } from '../request/Request';
 import { Response } from '../response/Response';
 import { RouteMiddleware } from './RouteMiddleware';
+import { FFLAMINGO_LOCALS_KEY } from '../app/augmentRouterMiddleware';
 
 export interface RouterOptions extends express.RouterOptions {}
 
@@ -24,8 +25,8 @@ export class Router {
   use(middleware: RouteMiddleware) {
     this.expressRouter.use((req, res, next) => {
       return middleware(
-        res.locals.__fflamingo.req,
-        res.locals.__fflamingo.res,
+        res.locals[FFLAMINGO_LOCALS_KEY].req,
+        res.locals[FFLAMINGO_LOCALS_KEY].res,
         next
       );
     });
@@ -37,7 +38,10 @@ export class Router {
    */
   get(endpoint: string, handler: RouteHandler) {
     this.expressRouter.get(endpoint, (req, res) => {
-      return handler(res.locals.__fflamingo.req, res.locals.__fflamingo.res);
+      return handler(
+        res.locals[FFLAMINGO_LOCALS_KEY].req,
+        res.locals[FFLAMINGO_LOCALS_KEY].res
+      );
     });
     return this;
   }
