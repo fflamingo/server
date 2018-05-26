@@ -11,6 +11,10 @@
     "build": "tsc -t es6 -m commonjs ./lib/"
   },
   "dependencies": {
+    "@types/graphql": "^0.13.1",
+    "@types/lodash": "^4.14.109",
+    "graphql": "^0.13.2",
+    "lodash": "^4.17.10",
     "typescript": "^2.8.3"
   },
   "devDependencies": {
