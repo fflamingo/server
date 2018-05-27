@@ -7,8 +7,10 @@ export interface SchemaGraphQLOptions {
   adapter: typeof Adapter;
 }
 
+export type SchemasMap = { [key: string]: Schema };
+
 export function makeGraphQLSchema(
-  schemas: { [key: string]: Schema },
+  schemas: SchemasMap,
   options: SchemaGraphQLOptions
 ) {
   const adapter = new options.adapter(schemas);
@@ -21,7 +23,7 @@ export function makeGraphQLSchema(
         args: {},
         type: s.compile(),
         resolve: async (parent, args, context, resolveInfo) => {
-          await adapter.fromAST(resolveInfo);
+          return await adapter.fromAST(resolveInfo);
         }
       }))
     }
