@@ -1,13 +1,21 @@
-import { GraphQLType, GraphQLString, GraphQLOutputType } from 'graphql';
+import {
+  GraphQLType,
+  GraphQLString,
+  GraphQLOutputType,
+  GraphQLField,
+  GraphQLFieldConfig
+} from 'graphql';
 
 export abstract class SchemaField {
   constructor() {}
 
-  abstract compile(): GraphQLOutputType;
+  abstract compileField(): GraphQLFieldConfig<any, any, any>;
 }
 
 export class SchemaFieldString extends SchemaField {
-  compile(): GraphQLOutputType {
-    return GraphQLString;
+  compileField(): GraphQLFieldConfig<any, any, any> {
+    return {
+      type: GraphQLString
+    };
   }
 }

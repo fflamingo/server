@@ -9,7 +9,7 @@ import { SchemasMap } from '../schema/makeGraphQLSchema';
 export class Adapter {
   constructor(protected schemas: SchemasMap) {}
 
-  async fromAST(info: GraphQLResolveInfo) {
+  async fromAST(info: GraphQLResolveInfo): Promise<object> {
     throw new Error(
       'Adapter.fromAST should be implemented in derived classes.'
     );

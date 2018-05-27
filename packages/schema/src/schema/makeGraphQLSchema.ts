@@ -1,5 +1,5 @@
 import { Schema } from '../schema/Schema';
-import { GraphQLSchema, GraphQLObjectType } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLList } from 'graphql';
 import { mapValues } from 'lodash';
 import { Adapter } from '..';
 
@@ -16,17 +16,32 @@ export function makeGraphQLSchema(
   const adapter = new options.adapter(schemas);
 
   const queryType = new GraphQLObjectType({
-    name: 'query',
-    fields: {
+    name: 'Query',
+    description: 'Root query object',
+    fields: () => ({
       ...mapValues(schemas, s => ({
-        name: s.tableName,
+        name: s.singular,
         args: {},
-        type: s.compile(),
-        resolve: async (parent, args, context, resolveInfo) => {
-          return await adapter.fromAST(resolveInfo);
+        type: s.objectType,
+        async resolve(parent, args, context, resolveInfo) {
+          console.log('Resolving ', parent);
+          const r = await adapter.fromAST(resolveInfo);
+          console.log('Returns', r);
+          return r;
+        }
+      })),
+      ...mapValues(schemas, s => ({
+        name: s.plural,
+        args: {},
+        type: new GraphQLList(s.objectType),
+        async resolve(parent, args, context, resolveInfo) {
+          console.log('Resolving ', parent);
+          const r = await adapter.fromAST(resolveInfo);
+          console.log('Returns', r);
+          return r;
         }
       }))
-    }
+    })
   });
 
   return new GraphQLSchema({
