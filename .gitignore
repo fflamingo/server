@@ -3,4 +3,5 @@ node_modules/
 /junit.xml
 packages/*/coverage/
 packages/*/junit.xml
-packages/utils/yarn-error.log
+packages/*/lib
+packages/*/yarn-error.log

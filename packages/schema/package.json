@@ -1,14 +1,17 @@
 {
   "name": "@fflamingo/schema",
   "version": "0.0.1",
-  "description": "fflamingo schema and model descriptor to interact with datasource etc.",
-  "main": "index.js",
+  "description":
+    "fflamingo schema and model descriptor to interact with datasource etc.",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "Leonardo Ascione <leonardo@favoloso.team>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
     "dev": "tsc -w",
-    "build": "tsc -t es6 -m commonjs ./lib/"
+    "build": "tsc -t es6 -m commonjs -p tsconfig.build.json --outDir ./lib/"
   },
   "dependencies": {
     "@types/graphql": "^0.13.1",
