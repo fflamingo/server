@@ -1,0 +1,29 @@
+{
+  "name": "@fflamingo/schema-postgres-adapter",
+  "version": "0.0.1",
+  "description": "Converts GraphQL AST to a PostgreSQL query, returning JSON",
+  "main": "index.js",
+  "author": "Leonardo Ascione <leonardo@favoloso.team>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "dev": "tsc -w",
+    "build": "tsc -t es6 -m commonjs ./lib/"
+  },
+  "dependencies": {
+    "@fflamingo/schema": "^0.0.1",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "knex": "^0.14.6",
+    "lodash": "^4.17.10",
+    "typescript": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/graphql": "^0.13.1",
+    "@types/knex": "^0.14.14",
+    "@types/lodash": "^4.14.109"
+  },
+  "peerDependencies": {
+    "graphql": "^0.13.2"
+  }
+}

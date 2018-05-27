@@ -1,0 +1,1 @@
+export { PostgresSchemaAdapter } from './PostgresSchemaAdapter';
