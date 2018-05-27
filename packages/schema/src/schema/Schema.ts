@@ -1,4 +1,4 @@
-import { SchemaField } from './SchemaField';
+import { SchemaField, SchemaFieldString } from './SchemaField';
 import { GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import { mapValues } from 'lodash';
 import pluralize from 'pluralize';
@@ -23,6 +23,8 @@ export interface SchemaDescriptor {
 }
 
 export class Schema {
+  static String = SchemaFieldString;
+
   singular: string;
   plural: string;
 

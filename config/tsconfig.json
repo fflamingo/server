@@ -12,6 +12,10 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./packages/",
+    "paths": {
+      "@fflamingo/*": ["./*/src"]
+    }
   }
 }

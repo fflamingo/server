@@ -1,5 +1,10 @@
 {
   "extends": "../../config/tsconfig.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+      "@fflamingo/*": ["./*/src"]
+    }
+  },
   "include": ["src/**/*", "__tests__/**/*"]
 }

@@ -9,6 +9,9 @@ module.exports = {
       skipBabel: true
     }
   },
+  moduleNameMapper: {
+    '@fflamingo/(.*)': '<rootDir>/packages/$1/src/'
+  },
   coverageDirectory: './coverage/',
   collectCoverageFrom: ['packages/**/src/**/*.{js,jsx,ts,tsx}']
 };
