@@ -1,50 +1,46 @@
 import { Schema } from '../schema/Schema';
 import { GraphQLSchema, GraphQLObjectType, GraphQLList } from 'graphql';
 import { mapValues } from 'lodash';
-import { Adapter } from '..';
+import { Adapter } from '../adapter/Adapter';
+import { assign } from 'lodash';
 
 export interface SchemaGraphQLOptions {
-  adapter: typeof Adapter;
+  adapter: Adapter;
 }
 
-export type SchemasMap = { [key: string]: Schema };
-
 export function makeGraphQLSchema(
-  schemas: SchemasMap,
+  schemas: Schema[],
   options: SchemaGraphQLOptions
 ) {
-  const adapter = new options.adapter(schemas);
+  const adapter = options.adapter;
 
   const queryType = new GraphQLObjectType({
     name: 'Query',
     description: 'Root query object',
-    fields: () => ({
-      ...mapValues(schemas, s => ({
-        name: s.singular,
-        args: {},
-        type: s.objectType,
-        async resolve(parent, args, context, resolveInfo) {
-          console.log('Resolving ', parent);
-          const r = await adapter.fromAST(resolveInfo);
-          console.log('Returns', r);
-          return r;
-        }
-      })),
-      ...mapValues(schemas, s => ({
-        name: s.plural,
-        args: {},
-        type: new GraphQLList(s.objectType),
-        async resolve(parent, args, context, resolveInfo) {
-          console.log('Resolving ', parent);
-          const r = await adapter.fromAST(resolveInfo);
-          console.log('Returns', r);
-          return r;
-        }
-      }))
-    })
+    fields: () =>
+      assign({}, ...schemas.map(schema => makeGraphQLFields(adapter, schema)))
   });
 
   return new GraphQLSchema({
     query: queryType
   });
+}
+
+function makeGraphQLFields(adapter: Adapter, schema: Schema) {
+  return {
+    [schema.singular]: {
+      type: schema.objectType,
+      args: {}, // todo
+      resolve(parent, args, context, resolveInfo) {
+        return adapter.fromAST(resolveInfo);
+      }
+    },
+    [schema.plural]: {
+      type: new GraphQLList(schema.objectType),
+      args: {},
+      resolve(parent, args, context, resolveInfo) {
+        return adapter.fromAST(resolveInfo);
+      }
+    }
+  };
 }

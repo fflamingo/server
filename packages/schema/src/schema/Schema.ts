@@ -3,6 +3,16 @@ import { GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import { mapValues } from 'lodash';
 import pluralize from 'pluralize';
 
+// Augments GraphQL Object type in order to store original Schema.
+declare module 'graphql/type/definition' {
+  interface GraphQLObjectTypeConfig<TSource, TContext> {
+    sourceSchema?: Schema;
+  }
+  interface GraphQLObjectType {
+    _typeConfig: GraphQLObjectTypeConfig<any, any>;
+  }
+}
+
 export interface SchemaDescriptor {
   singular: string;
   plural?: string;
@@ -34,7 +44,8 @@ export class Schema {
 
   protected compileType() {
     this.graphql.objectType = new GraphQLObjectType({
-      name: this.tableName,
+      name: this.singular,
+      sourceSchema: this,
       fields: () => mapValues(this.fields, field => field.compileField())
     });
   }

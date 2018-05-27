@@ -4,4 +4,4 @@ export function makeSchema(str: string) {
 
 export { Schema } from './schema/Schema';
 export { Adapter } from './adapter/Adapter';
-export { makeGraphQLSchema, SchemasMap } from './schema/makeGraphQLSchema';
+export { makeGraphQLSchema } from './schema/makeGraphQLSchema';

@@ -10,13 +10,9 @@ test('should create a simple schema and convert it to graphql', () => {
     }
   });
 
-  const converted = makeGraphQLSchema(
-    {
-      users: userSchema
-    },
-    { adapter: Adapter }
-  );
+  const converted = makeGraphQLSchema([userSchema], { adapter: new Adapter() });
   expect(converted.getQueryType()!.name).toEqual('Query');
-  expect(converted.getType('users')!.name).toEqual('users');
   expect(converted.getType('user')!.name).toEqual('user');
+  expect(converted.getQueryType()!.getFields()['users']).not.toBeNull();
+  expect(converted.getQueryType()!.getFields()['user']).not.toBeNull();
 });
