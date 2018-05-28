@@ -14,5 +14,6 @@ const query = `
 
 test('should convert simple query to SQL Ast', async () => {
   const result = await graphql(simpleSchema, query);
+  console.log('result is', result);
   expect(result).not.toBe(null);
 });

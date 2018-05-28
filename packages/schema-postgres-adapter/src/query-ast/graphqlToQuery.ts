@@ -7,15 +7,20 @@ import {
   InlineFragmentNode,
   GraphQLObjectType,
   GraphQLList,
-  GraphQLOutputType
+  GraphQLOutputType,
+  getNamedType
 } from 'graphql';
 import util from 'util';
-import { Schema } from '@fflamingo/schema';
-import * as builder from './astBuilder';
-import { ASTField, ASTSelect } from './QueryASTTypes';
+import { Schema, sql } from '@fflamingo/schema';
+import { astRowToJsonSelect } from './sqlAstPostgres';
+import { AstSelect } from 'schema/src/sql/sqlAstTypes';
+
+const { astBuilder: builder } = sql;
 
 export interface ToQueryContext {
-  parent: GraphQLOutputType;
+  parent: GraphQLObjectType;
+  current: GraphQLOutputType;
+  info: GraphQLResolveInfo;
 }
 
 /**
@@ -40,60 +45,72 @@ export function rootFieldToQuery(
       }"`
     );
 
-  return nodeToQuery(fieldNode, { parent: rootField.type }, info);
+  return astRowToJsonSelect(
+    'result',
+    builder.astWrappedQuery(
+      nodeToQuery(fieldNode, {
+        info,
+        parent: findObjectType(rootField.type)!,
+        current: rootField.type
+      }) as AstSelect,
+      'j'
+    )
+  );
 }
 
-function findParentObjectType(
-  parent: GraphQLOutputType
+function findObjectType(
+  outputType: GraphQLOutputType
 ): GraphQLObjectType | null {
-  if (parent instanceof GraphQLList) return parent.ofType;
-  if (parent instanceof GraphQLObjectType) return parent;
+  const unwrappedType = getNamedType(outputType);
+  if (unwrappedType instanceof GraphQLObjectType) return unwrappedType;
 
   return null;
   // throw new Error('Parent object type not implemented for ' + parent);
 }
 
-export function nodeToQuery(
-  fieldNode: FieldNode,
-  ctx: ToQueryContext,
-  info: GraphQLResolveInfo
-) {
-  const objectType = findParentObjectType(ctx.parent);
+export function nodeToQuery(fieldNode: FieldNode, ctx: ToQueryContext) {
+  const objectType = findObjectType(ctx.current);
   // console.log(util.inspect(info, false, null));
   // console.log(info.schema.getType('user'));
 
   if (objectType) {
-    console.log('Found schema');
     return builder.astSelect(
       builder.astTable(objectType._typeConfig.sourceSchema!.tableName),
-      selectionSetToQuery(fieldNode.selectionSet, info),
+      selectionSetToQuery(fieldNode.selectionSet, ctx),
       !(ctx.parent instanceof GraphQLList)
     );
   }
 
-  return fieldNode.name.value;
+  return builder.astField(builder.astIdentifier(fieldNode.name.value));
   // console.log(util.inspect(info, false, null));
 }
 
 export function selectionSetToQuery(
   selectionSet: SelectionSetNode | undefined,
-  info: GraphQLResolveInfo
+  ctx: ToQueryContext
 ) {
   if (selectionSet == null) return [];
   return selectionSet.selections.map(selection =>
-    selectionNodeToQuery(selection, info)
+    selectionNodeToQuery(selection, ctx)
   );
 }
 
 export function selectionNodeToQuery(
   selectionNode: FieldNode | InlineFragmentNode | FragmentSpreadNode,
-  info: GraphQLResolveInfo
+  ctx: ToQueryContext
 ) {
   switch (selectionNode.kind) {
     case 'Field':
-      return builder.astField(builder.astIdentifier(selectionNode.name.value));
+      return nodeToQuery(selectionNode, {
+        ...ctx,
+        current: findOutputTypeFromParent(selectionNode.name.value, ctx)
+      });
 
     default:
       throw new Error('not implemented');
   }
+}
+
+function findOutputTypeFromParent(name: string, ctx: ToQueryContext) {
+  return ctx.parent.getFields()[name].type;
 }
