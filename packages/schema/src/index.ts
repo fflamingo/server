@@ -6,5 +6,11 @@ export { Schema } from './schema/Schema';
 export { Adapter } from './adapter/Adapter';
 export { makeGraphQLSchema } from './schema/makeGraphQLSchema';
 
-import * as sql from './sql';
-export { sql };
+// SQL
+
+import * as sqlAstTypes from './sql/sqlAstTypes';
+import * as sqlAstBuilder from './sql/sqlAstBuilder';
+export { sqlAstTypes, sqlAstBuilder };
+export * from './sql/sqlAstTypes';
+export { getFromAliasName } from './sql/sqlAstTraversal';
+export { sqlAstCompile } from './sql/sqlAstCompile';

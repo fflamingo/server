@@ -11,7 +11,7 @@ import {
   getNamedType
 } from 'graphql';
 import util from 'util';
-import { Schema, sql } from '@fflamingo/schema';
+import { Schema, sqlAstBuilder as sql, sqlAstTypes } from '@fflamingo/schema';
 import { astRowToJsonSelect } from './sqlAstPostgres';
 import { AstSelect } from 'schema/src/sql/sqlAstTypes';
 

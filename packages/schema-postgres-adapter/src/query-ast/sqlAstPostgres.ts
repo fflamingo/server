@@ -1,13 +1,15 @@
-import { sql } from '@fflamingo/schema';
+import {
+  sqlAstBuilder as sql,
+  sqlAstTypes,
+  getFromAliasName
+} from '@fflamingo/schema';
 
-const { astBuilder } = sql;
-
-export function astRowToJsonSelect(as: string, from: sql.astTypes.AstFrom) {
-  return astBuilder.astSelect(from, [
-    astBuilder.astAggregateField(
+export function astRowToJsonSelect(as: string, from: sqlAstTypes.AstFrom) {
+  return sql.astSelect(from, [
+    sql.astAggregateField(
       'row_to_json',
-      astBuilder.astIdentifier(sql.findAstFromAliasName(from)),
-      astBuilder.astIdentifier(as)
+      sql.astIdentifier(getFromAliasName(from)),
+      sql.astIdentifier(as)
     )
   ]);
 }
