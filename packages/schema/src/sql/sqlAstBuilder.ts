@@ -5,9 +5,12 @@ import {
   AstSelect,
   AstField,
   AstIdentifier,
-  AstAggregateField,
+  AstUnaryFunction,
   AstQuery,
-  AstWrappedQuery
+  AstWrappedQuery,
+  AstNode,
+  AstBinaryFunction,
+  AstLiteralValue
 } from './sqlAstTypes';
 
 export function astTable(name: string): AstTable {
@@ -41,21 +44,49 @@ export function astWrappedQuery(query: AstQuery, as: string): AstWrappedQuery {
 export function astField(name: string | AstIdentifier, as?: string): AstField {
   return {
     type: 'Field',
+    name: expandIdentifier(name) as AstIdentifier,
+    as
+  };
+}
+
+export function astUnaryFunction(
+  functionName: string,
+  name: string | AstNode,
+  as?: string
+): AstUnaryFunction {
+  return {
+    type: 'UnaryFunction',
+    functionName,
     name: expandIdentifier(name),
     as
   };
 }
 
-export function astAggregateField(
-  aggregate: string,
-  name: string | AstIdentifier,
-  as: string
-): AstAggregateField {
+export const astAggregateField = astUnaryFunction;
+
+export function astBinaryFunction(
+  functionName: string,
+  left: AstNode,
+  right: AstNode,
+  as?: string
+): AstBinaryFunction {
   return {
-    type: 'AggregateField',
-    aggregate,
-    name: expandIdentifier(name),
+    type: 'BinaryFunction',
+    functionName,
+    left,
+    right,
     as
+  };
+}
+
+export function astLiteralValue(
+  value: string,
+  valueType: string
+): AstLiteralValue {
+  return {
+    type: 'LiteralValue',
+    value,
+    valueType
   };
 }
 
@@ -83,7 +114,7 @@ export function astIdentifier(
 }
 
 // Utilities
-function expandIdentifier(name: string | AstIdentifier) {
-  if (typeof name === 'object') return name;
-  return astIdentifier(name);
+function expandIdentifier(name: string | AstNode) {
+  if (typeof name === 'string') return astIdentifier(name);
+  return name;
 }

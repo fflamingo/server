@@ -1,3 +1,4 @@
+import { setupDb, clearDb } from '../__schema/setupDb';
 import { graphqlToQuery } from '../../src/query-ast/graphqlToQuery';
 import { simpleSchema } from '../__schema/simpleSchema';
 import { graphql, parse } from 'graphql';
@@ -13,10 +14,12 @@ const query = `
   }
 `;
 
+beforeAll(setupDb);
+afterAll(clearDb);
+
 test('should convert simple query to SQL Ast', async () => {
   const result = await graphql(simpleSchema, query);
-  const parseResult = parse(query);
-  console.log('ast from gql is', util.inspect(parseResult, false, null));
+  // console.log('ast from gql is', util.inspect(parseResult, false, null));
   console.log('result is', result);
   expect(result).not.toBe(null);
 });

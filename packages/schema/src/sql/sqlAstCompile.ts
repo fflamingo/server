@@ -17,20 +17,32 @@ export function sqlAstCompile(
       return ast.name;
 
     case 'Select':
-      return builder
-        .select(
-          ...ast.columns.map(column => sqlAstCompile(knex, column, builder))
-        )
-        .from(sqlAstCompile(knex, ast.from, builder));
+      return builder[ast.first ? 'first' : 'select'](
+        ...ast.columns.map(column => sqlAstCompile(knex, column, builder))
+      ).from(sqlAstCompile(knex, ast.from, builder));
 
     case 'Field': {
       const fieldName = sqlAstCompile(knex, ast.name);
       return ast.as ? { [ast.as]: fieldName } : fieldName;
     }
 
-    case 'AggregateField': {
+    case 'UnaryFunction': {
       const paramName = sqlAstCompile(knex, ast.name);
-      return knex.raw(`${ast.aggregate}(??) as ??`, [paramName, ast.as]);
+      return ast.as
+        ? knex.raw(`${ast.functionName}(??) as ??`, [paramName, ast.as])
+        : knex.raw(`${ast.functionName}(??)`, [paramName]);
+    }
+
+    case 'BinaryFunction': {
+      const left = sqlAstCompile(knex, ast.left);
+      const right = sqlAstCompile(knex, ast.right);
+      return ast.as
+        ? knex.raw(`${ast.functionName}(??, ??) as ??`, [left, right, ast.as])
+        : knex.raw(`${ast.functionName}(??, ??)`, [left, right]);
+    }
+
+    case 'LiteralValue': {
+      return knex.raw(`'${ast.value}'::${ast.valueType}`);
     }
 
     case 'Identifier':

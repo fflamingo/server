@@ -2,26 +2,26 @@
 
 exports[`should create an aggregate field 1`] = `
 Object {
-  "aggregate": "row_to_json",
   "as": "j",
+  "functionName": "row_to_json",
   "name": Object {
     "name": "alias_name",
     "scope": undefined,
     "type": "Identifier",
   },
-  "type": "AggregateField",
+  "type": "UnaryFunction",
 }
 `;
 
 exports[`should create an aggregate field with scoped column 1`] = `
 Object {
-  "aggregate": "row_to_json",
   "as": "j",
+  "functionName": "row_to_json",
   "name": Object {
     "name": "alias_name",
     "scope": "table",
     "type": "Identifier",
   },
-  "type": "AggregateField",
+  "type": "UnaryFunction",
 }
 `;

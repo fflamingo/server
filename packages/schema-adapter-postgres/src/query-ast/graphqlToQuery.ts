@@ -12,7 +12,7 @@ import {
 } from 'graphql';
 import util from 'util';
 import { Schema, sqlAstBuilder as sql, sqlAstTypes } from '@fflamingo/schema';
-import { astRowToJsonSelect } from './sqlAstPostgres';
+import { astRowToJsonSelect, astCoalesce } from './sqlAstPostgres';
 
 export interface ToQueryContext {
   parent: GraphQLObjectType;
@@ -41,6 +41,21 @@ export function rootFieldToQuery(
         info.schema.getQueryType()!.name
       }"`
     );
+
+  if (rootField.type instanceof GraphQLList) {
+    return sql.astSelect(
+      sql.astWrappedQuery(
+        nodeToQuery(fieldNode, {
+          info,
+          parent: findObjectType(rootField.type)!,
+          current: rootField.type
+        }) as sqlAstTypes.AstSelect,
+        'j'
+      ),
+      [astCoalesce('j', 'result')],
+      true
+    );
+  }
 
   return astRowToJsonSelect(
     'result',
@@ -73,8 +88,7 @@ export function nodeToQuery(fieldNode: FieldNode, ctx: ToQueryContext) {
   if (objectType) {
     return sql.astSelect(
       sql.astTable(objectType._typeConfig.sourceSchema!.tableName),
-      selectionSetToQuery(fieldNode.selectionSet, ctx),
-      !(ctx.parent instanceof GraphQLList)
+      selectionSetToQuery(fieldNode.selectionSet, ctx)
     );
   }
 

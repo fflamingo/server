@@ -46,3 +46,32 @@ test('should compile an aggregate function', () => {
     ).toString()
   ).toEqual(`row_to_json("column") as "final"`);
 });
+
+describe('binary function', () => {
+  test('should compile a binary function', () => {
+    expect(
+      sqlAstCompile(
+        db,
+        sql.astBinaryFunction(
+          'coalesce',
+          sql.astAggregateField('json_agg', 'pippo'),
+          sql.astLiteralValue('[]', 'json')
+        )
+      ).toString()
+    ).toEqual(`coalesce(json_agg("pippo"), '[]'::json)`);
+  });
+
+  test('should compile even with as identifier', () => {
+    expect(
+      sqlAstCompile(
+        db,
+        sql.astBinaryFunction(
+          'coalesce',
+          sql.astIdentifier('demo_field'),
+          sql.astLiteralValue('10', 'int'),
+          'demo_field_int'
+        )
+      ).toString()
+    ).toEqual(`coalesce("demo_field", '10'::int) as "demo_field_int"`);
+  });
+});

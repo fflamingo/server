@@ -16,6 +16,7 @@
     "graphql-tag": "^2.9.2",
     "knex": "^0.14.6",
     "lodash": "^4.17.10",
+    "pg": "^7.4.3",
     "typescript": "^2.8.3"
   },
   "devDependencies": {
