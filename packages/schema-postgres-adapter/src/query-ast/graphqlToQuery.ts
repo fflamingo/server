@@ -13,9 +13,6 @@ import {
 import util from 'util';
 import { Schema, sqlAstBuilder as sql, sqlAstTypes } from '@fflamingo/schema';
 import { astRowToJsonSelect } from './sqlAstPostgres';
-import { AstSelect } from 'schema/src/sql/sqlAstTypes';
-
-const { astBuilder: builder } = sql;
 
 export interface ToQueryContext {
   parent: GraphQLObjectType;
@@ -47,12 +44,12 @@ export function rootFieldToQuery(
 
   return astRowToJsonSelect(
     'result',
-    builder.astWrappedQuery(
+    sql.astWrappedQuery(
       nodeToQuery(fieldNode, {
         info,
         parent: findObjectType(rootField.type)!,
         current: rootField.type
-      }) as AstSelect,
+      }) as sqlAstTypes.AstSelect,
       'j'
     )
   );
@@ -74,14 +71,14 @@ export function nodeToQuery(fieldNode: FieldNode, ctx: ToQueryContext) {
   // console.log(info.schema.getType('user'));
 
   if (objectType) {
-    return builder.astSelect(
-      builder.astTable(objectType._typeConfig.sourceSchema!.tableName),
+    return sql.astSelect(
+      sql.astTable(objectType._typeConfig.sourceSchema!.tableName),
       selectionSetToQuery(fieldNode.selectionSet, ctx),
       !(ctx.parent instanceof GraphQLList)
     );
   }
 
-  return builder.astField(builder.astIdentifier(fieldNode.name.value));
+  return sql.astField(sql.astIdentifier(fieldNode.name.value));
   // console.log(util.inspect(info, false, null));
 }
 

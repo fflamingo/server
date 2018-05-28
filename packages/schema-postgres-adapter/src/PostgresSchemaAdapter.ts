@@ -14,11 +14,7 @@ export class PostgresSchemaAdapter extends Adapter {
   async fromAST(info: GraphQLResolveInfo) {
     const ast = await graphqlToQuery(info);
     console.log('ast is', util.inspect(ast, false, null));
-    const query = sqlAstCompile(
-      this.database,
-      this.database.queryBuilder(),
-      ast
-    );
+    const query = sqlAstCompile(this.database, ast);
     console.log('result from query is\n', query.toSQL());
     return [{ email: 'aa aa', name: 'BBB' }];
   }

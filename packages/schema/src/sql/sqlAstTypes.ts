@@ -24,18 +24,19 @@ export interface AstWrappedQuery {
 
 export interface AstIdentifier {
   type: 'Identifier';
+  scope?: string;
   name: string;
 }
 
 export interface AstField {
   type: 'Field';
   name: AstIdentifier;
-  as?: AstIdentifier;
+  as?: string;
 }
 
 export interface AstAggregateField {
   type: 'AggregateField';
   aggregate: string;
   name: AstIdentifier;
-  as?: AstIdentifier;
+  as: string;
 }

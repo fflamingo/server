@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should create an aggregate field 1`] = `
+Object {
+  "aggregate": "row_to_json",
+  "as": "j",
+  "name": Object {
+    "name": "alias_name",
+    "scope": undefined,
+    "type": "Identifier",
+  },
+  "type": "AggregateField",
+}
+`;
+
+exports[`should create an aggregate field with scoped column 1`] = `
+Object {
+  "aggregate": "row_to_json",
+  "as": "j",
+  "name": Object {
+    "name": "alias_name",
+    "scope": "table",
+    "type": "Identifier",
+  },
+  "type": "AggregateField",
+}
+`;

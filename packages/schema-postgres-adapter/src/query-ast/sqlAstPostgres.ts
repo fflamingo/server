@@ -6,10 +6,6 @@ import {
 
 export function astRowToJsonSelect(as: string, from: sqlAstTypes.AstFrom) {
   return sql.astSelect(from, [
-    sql.astAggregateField(
-      'row_to_json',
-      sql.astIdentifier(getFromAliasName(from)),
-      sql.astIdentifier(as)
-    )
+    sql.astAggregateField('row_to_json', getFromAliasName(from), as)
   ]);
 }

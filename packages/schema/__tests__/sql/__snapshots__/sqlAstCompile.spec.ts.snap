@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should create a select expression 1`] = `"select \\"email\\", \\"name\\" from \\"users\\""`;
+
+exports[`should create a wrapped query expression 1`] = `"select \\"original_users\\".\\"name\\" as \\"original_name\\", \\"original_name\\" from (select \\"original_name\\" from \\"users\\") as \\"original_users\\""`;

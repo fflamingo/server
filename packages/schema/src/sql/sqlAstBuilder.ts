@@ -38,30 +38,52 @@ export function astWrappedQuery(query: AstQuery, as: string): AstWrappedQuery {
   };
 }
 
-export function astField(name: AstIdentifier, as?: AstIdentifier): AstField {
+export function astField(name: string | AstIdentifier, as?: string): AstField {
   return {
     type: 'Field',
-    name,
+    name: expandIdentifier(name),
     as
   };
 }
 
 export function astAggregateField(
   aggregate: string,
-  name: AstIdentifier,
-  as?: AstIdentifier
+  name: string | AstIdentifier,
+  as: string
 ): AstAggregateField {
   return {
     type: 'AggregateField',
     aggregate,
-    name,
+    name: expandIdentifier(name),
     as
   };
 }
 
-export function astIdentifier(name: string): AstIdentifier {
+/**
+ * Accepts both format:
+ *
+ *  - astIdentifier("table", "column") -> "table"."column"
+ *  - astIdentifier("column") -> "column"
+ */
+export function astIdentifier(
+  name: string,
+  scopedName?: string
+): AstIdentifier {
+  if (name.indexOf('.') >= 0 || (scopedName && scopedName.indexOf('.') >= 0)) {
+    throw new Error(
+      `In order to use a "." separator inside name "${name}" or "${scopedName}", use "astIdentifier()" constructor`
+    );
+  }
+
   return {
     type: 'Identifier',
-    name
+    name: scopedName == null ? name : scopedName,
+    scope: scopedName == null ? undefined : name
   };
+}
+
+// Utilities
+function expandIdentifier(name: string | AstIdentifier) {
+  if (typeof name === 'object') return name;
+  return astIdentifier(name);
 }
