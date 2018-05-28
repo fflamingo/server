@@ -5,3 +5,6 @@ export function makeSchema(str: string) {
 export { Schema } from './schema/Schema';
 export { Adapter } from './adapter/Adapter';
 export { makeGraphQLSchema } from './schema/makeGraphQLSchema';
+
+import * as sql from './sql';
+export { sql };
