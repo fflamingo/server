@@ -1,5 +1,5 @@
 {
-  "name": "@fflamingo/schema-postgres-adapter",
+  "name": "@fflamingo/schema-adapter-postgres",
   "version": "0.0.1",
   "description": "Converts GraphQL AST to a PostgreSQL query, returning JSON",
   "main": "index.js",
