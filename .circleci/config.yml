@@ -42,6 +42,10 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
 
+      - run:
+          name: check typescript typings
+          command: yarn typings
+
       # upload cov!
       - run:
           name: coverage

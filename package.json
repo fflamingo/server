@@ -4,6 +4,7 @@
     "bootstrap": "lerna bootstrap",
     "test": "jest",
     "test:ci": "jest --coverage --ci --testResultsProcessor=\"jest-junit\"",
+    "typings": "lerna exec --stream tsc -- --noEmit",
     "coverage": "codecov"
   },
   "workspaces": ["packages/*"],
