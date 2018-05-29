@@ -42,9 +42,15 @@ test('should compile an aggregate function', () => {
   expect(
     sqlAstCompile(
       db,
-      sql.astAggregateField('row_to_json', 'column', 'final')
+      sql.astUnaryFunction('row_to_json', 'column', 'final')
     ).toString()
   ).toEqual(`row_to_json("column") as "final"`);
+});
+
+test('should fail with invalid function name', () => {
+  expect(() =>
+    sqlAstCompile(db, sql.astUnaryFunction('what?', 'column'))
+  ).toThrow(/valid/);
 });
 
 describe('binary function', () => {
@@ -54,7 +60,7 @@ describe('binary function', () => {
         db,
         sql.astBinaryFunction(
           'coalesce',
-          sql.astAggregateField('json_agg', 'pippo'),
+          sql.astUnaryFunction('json_agg', 'pippo'),
           sql.astLiteralValue('[]', 'json')
         )
       ).toString()
