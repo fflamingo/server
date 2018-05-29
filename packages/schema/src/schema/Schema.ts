@@ -1,4 +1,4 @@
-import { SchemaField, SchemaFieldString } from './SchemaField';
+import { Field, StringField } from './Field';
 import { GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import { mapValues } from 'lodash';
 import pluralize from 'pluralize';
@@ -18,19 +18,19 @@ export interface SchemaDescriptor {
   plural?: string;
   tableName?: string;
   fields: {
-    [key: string]: SchemaField | Schema;
+    [key: string]: Field | Schema;
   };
 }
 
 export class Schema {
-  static String = SchemaFieldString;
+  static String = StringField;
 
   singular: string;
   plural: string;
 
   tableName: string;
   fields: {
-    [key: string]: SchemaField | Schema;
+    [key: string]: Field | Schema;
   };
 
   graphql: {

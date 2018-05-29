@@ -6,13 +6,13 @@ import {
   GraphQLFieldConfig
 } from 'graphql';
 
-export abstract class SchemaField {
+export abstract class Field {
   constructor() {}
 
   abstract compileField(): GraphQLFieldConfig<any, any, any>;
 }
 
-export class SchemaFieldString extends SchemaField {
+export class StringField extends Field {
   compileField(): GraphQLFieldConfig<any, any, any> {
     return {
       type: GraphQLString

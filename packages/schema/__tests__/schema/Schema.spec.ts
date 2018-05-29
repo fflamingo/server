@@ -1,10 +1,10 @@
 import { Schema } from '../../src/schema/Schema';
-import { SchemaField, SchemaFieldString } from '../../src/schema/SchemaField';
+import { Field, StringField } from '../../src/schema/Field';
 
 const userSchema = new Schema({
   singular: 'user',
   fields: {
-    id: new SchemaFieldString()
+    id: new StringField()
   }
 });
 
