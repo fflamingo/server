@@ -3,6 +3,7 @@ import { simpleSchema } from '../__schema/simpleSchema';
 import { graphql, parse } from 'graphql';
 import gql from 'graphql-tag';
 import util from 'util';
+import { selectionNodeToQuery } from '../../src/resolve/resolveSqlAst';
 
 beforeAll(setupDb);
 afterAll(clearDb);
@@ -66,4 +67,18 @@ test('should not allow an unexisting schema object field', async () => {
   expect(result.errors![0].message).toEqual(
     `Cannot query field "what" on type "user".`
   );
+});
+
+describe('fragments', () => {
+  // regression
+  test('failing: should handle fragments', () => {
+    expect(() =>
+      selectionNodeToQuery(
+        {
+          kind: 'InlineFragmentNode'
+        } as any,
+        {} as any
+      )
+    ).toThrow();
+  });
 });
