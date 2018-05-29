@@ -1,6 +1,6 @@
 import { Schema, Adapter, sqlAstCompile } from '@fflamingo/schema';
 import { GraphQLResolveInfo } from 'graphql';
-import { graphqlToQuery } from './query-ast/graphqlToQuery';
+import { resolveSqlAst } from './resolve/resolveSqlAst';
 import * as Knex from 'knex';
 import util from 'util';
 
@@ -13,7 +13,7 @@ export class PostgresSchemaAdapter extends Adapter {
   }
 
   async fromAST(info: GraphQLResolveInfo) {
-    const ast = await graphqlToQuery(info);
+    const ast = await resolveSqlAst(info);
     console.log('ast is', util.inspect(ast, false, null));
     const query = sqlAstCompile(this.database, ast) as Knex.QueryBuilder;
     console.log('result from query is\n', query.toString());

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should build a single entity query 1`] = `
+Object {
+  "data": Object {
+    "user": Object {
+      "email": "mario@fflamingo.org",
+      "name": "mario",
+    },
+  },
+}
+`;
+
+exports[`should convert simple query to SQL Ast 1`] = `
+Object {
+  "data": Object {
+    "users": Array [
+      Object {
+        "email": "mario@fflamingo.org",
+        "name": "mario",
+      },
+      Object {
+        "email": "gino@fflamingo.org",
+        "name": "gino",
+      },
+    ],
+  },
+}
+`;

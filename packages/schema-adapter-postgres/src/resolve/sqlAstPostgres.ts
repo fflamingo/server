@@ -5,10 +5,8 @@ import {
   AstIdentifier
 } from '@fflamingo/schema';
 
-export function astRowToJsonSelect(as: string, from: sqlAstTypes.AstFrom) {
-  return sql.astSelect(from, [
-    sql.astUnaryFunction('row_to_json', getFromAliasName(from), as)
-  ]);
+export function astRowToJson(identifier: string | AstIdentifier, as: string) {
+  return sql.astUnaryFunction('row_to_json', identifier, as);
 }
 
 export function astCoalesce(identifier: string | AstIdentifier, as?: string) {
