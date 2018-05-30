@@ -1,4 +1,4 @@
-import { Field, StringField } from './Field';
+import { Field, StringField } from './fields/Field';
 import { GraphQLObjectType, GraphQLFieldConfig } from 'graphql';
 import { mapValues } from 'lodash';
 import pluralize from 'pluralize';

@@ -1,5 +1,5 @@
 import { Schema } from '../../src/schema/Schema';
-import { Field, StringField } from '../../src/schema/Field';
+import { Field, StringField } from '../../src/schema/fields/Field';
 
 const userSchema = new Schema({
   singular: 'user',
