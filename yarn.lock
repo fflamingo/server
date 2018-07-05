@@ -56,7 +56,7 @@
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.13.1.tgz#7d39750355c9ecb921816d6f76c080405b5f6bea"
 
-"@types/invariant@^2.2.29":
+"@types/invariant@2.2.29":
   version "2.2.29"
   resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.29.tgz#aa845204cd0a289f65d47e0de63a6a815e30cc66"
 

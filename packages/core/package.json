@@ -20,7 +20,7 @@
     "typescript": "^2.8.3"
   },
   "devDependencies": {
-    "@types/invariant": "^2.2.29",
+    "@types/invariant": "2.2.29",
     "@types/jest": "^22.2.3",
     "codecov": "^3.0.2",
     "jest": "^22.4.4",
