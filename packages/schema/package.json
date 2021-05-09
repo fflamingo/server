@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/graphql": "^0.13.1",
     "@types/lodash": "^4.14.109",
-    "graphql": "^0.13.2",
+    "graphql": "^15.0.0",
     "invariant": "^2.2.4",
     "lodash": "^4.17.10",
     "pluralize": "^7.0.0",
