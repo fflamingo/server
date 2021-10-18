@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/graphql": "^0.13.1",
-    "@types/invariant": "^2.2.29",
+    "@types/invariant": "2.2.35",
     "@types/knex": "^0.14.14",
     "@types/lodash": "^4.14.109"
   },
