@@ -5,7 +5,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.11
+      - image: circleci/node:16.11
         environment:
           TEST_FFLAMINGO_DATABASE_URL: postgresql://fflamingo_user@localhost/fflamingo_test
 
