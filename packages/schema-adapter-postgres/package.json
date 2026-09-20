@@ -15,7 +15,7 @@
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "invariant": "^2.2.4",
-    "knex": "^0.14.6",
+    "knex": "^0.95.0",
     "lodash": "^4.17.10",
     "pg": "^7.4.3",
     "typescript": "^2.8.3"
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/graphql": "^0.13.1",
     "@types/invariant": "^2.2.29",
-    "@types/knex": "^0.14.14",
+    "@types/knex": "^0.16.0",
     "@types/lodash": "^4.14.109"
   },
   "peerDependencies": {
