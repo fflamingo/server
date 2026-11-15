@@ -13,7 +13,7 @@
     "build": "tsc -t es6 -m commonjs -p tsconfig.build.json --outDir ./lib/"
   },
   "dependencies": {
-    "@types/graphql": "^0.13.1",
+    "@types/graphql": "^14.0.0",
     "@types/lodash": "^4.14.109",
     "graphql": "^0.13.2",
     "invariant": "^2.2.4",
